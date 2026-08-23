@@ -2,6 +2,8 @@
 ### Student Number: L00197077
 ### Module: Software Development Project
 
+### Scrum Board: https://l00197077.atlassian.net/jira/software/projects/PGSA/boards/34?filter=&groupBy=none
+
 # Password Generator & Strength Analyser
 
 A Java application and web service providing secure password generation and strength analysation.
