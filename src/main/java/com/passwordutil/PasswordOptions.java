@@ -41,6 +41,17 @@ public class PasswordOptions {
         }
     }
 
+    // Calculate Password Pool Size
+
+    public int calculatePoolSize() {
+        int poolSize = 0;
+        if (isUseUppercase()) poolSize += 26;
+        if (isUseLowercase()) poolSize += 26;
+        if (isUseNumbers())   poolSize += 10;
+        if (isUseSymbols())   poolSize += 32;
+        return poolSize;
+    }
+
     // Standard getters and setters
     public int getLength() { return length; }
 
