@@ -12,27 +12,32 @@ public class App {
 
         // API Endpoint: /api/generate
         app.post("/api/generate", ctx -> {
-            // Parse incoming JSON request
-            PasswordOptions options;
             try {
-                options = ctx.bodyAsClass(PasswordOptions.class);
+                // Parse incoming JSON request body into PasswordOptions
+                PasswordOptions options = ctx.bodyAsClass(PasswordOptions.class);
+                options.validateOptions(); // Trigger validation rules (length & active sets)
+
+                // Core Logic Execution
+                PasswordGeneratorEngine engine = new PasswordGeneratorEngine();
+                String password = engine.generatePassword(options);
+
+                int poolSize = options.calculatePoolSize();
+                double entropy = PasswordStrengthAnalyzer.calculateEntropy(password.length(), poolSize);
+                PasswordStrengthAnalyzer.StrengthRating rating = PasswordStrengthAnalyzer.evaluateStrength(entropy);
+
+                // JSON Responses
+                ctx.json(Map.of(
+                        "password", password,
+                        "entropy", entropy,
+                        "rating", rating.name()
+                ));
+            } catch (IllegalArgumentException e) {
+                // Return HTTP 400 with the exact validation error message
+                ctx.status(400).json(Map.of("message", e.getMessage()));
             } catch (Exception e) {
-                options = new PasswordOptions();
+                // Handle parsing or malformed JSON payload errors
+                ctx.status(400).json(Map.of("message", "Invalid request body format."));
             }
-
-            // Core Logic Execution
-            PasswordGeneratorEngine engine = new PasswordGeneratorEngine();
-            String password = engine.generatePassword(options);
-            int poolSize = options.calculatePoolSize();
-            double entropy = PasswordStrengthAnalyzer.calculateEntropy(password.length(), poolSize);
-            PasswordStrengthAnalyzer.StrengthRating rating = PasswordStrengthAnalyzer.evaluateStrength(entropy);
-
-            // JSON Responses
-            ctx.json(Map.of(
-                    "password", password,
-                    "entropy", entropy,
-                    "rating", rating.name()
-            ));
         });
     }
 }
