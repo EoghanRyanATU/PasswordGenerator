@@ -1,10 +1,20 @@
 package com.passwordutil;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PasswordOptions {
     private int length;
+
+    @JsonProperty("useUpper")
     private boolean useUppercase;
+
+    @JsonProperty("useLower")
     private boolean useLowercase;
+
+    @JsonProperty("useNumbers")
     private boolean useNumbers;
+
+    @JsonProperty("useSymbols")
     private boolean useSymbols;
 
     // Default configuration: 12 chars with all character sets enabled
@@ -39,6 +49,16 @@ public class PasswordOptions {
         if (!useUppercase && !useLowercase && !useNumbers && !useSymbols) {
             throw new IllegalArgumentException("You must select at least one character type.");
         }
+    }
+
+    // Calculate Password Pool Size
+    public int calculatePoolSize() {
+        int poolSize = 0;
+        if (isUseUppercase()) poolSize += 26;
+        if (isUseLowercase()) poolSize += 26;
+        if (isUseNumbers())   poolSize += 10;
+        if (isUseSymbols())   poolSize += 32;
+        return poolSize;
     }
 
     // Standard getters and setters
