@@ -15,6 +15,9 @@ public class PasswordGeneratorEngine {
     private final SecureRandom random = new SecureRandom();
 
     public String generatePassword(PasswordOptions options) {
+        if (options == null){
+            throw new IllegalArgumentException("Password options cannot be empty!");
+        }
         options.validateOptions();
 
         StringBuilder pool = new StringBuilder();
