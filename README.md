@@ -21,9 +21,6 @@ A Java application and web service providing secure password generation and stre
 * JaCoCo (TBD)
 
 ## Build & Test Instructions
-To execute full build verification and JaCoCo coverage reports:
-
-## Build & Test Instructions
 
 ### Option 1: Via IDE (IntelliJ IDEA)
 If Maven is not installed globally on your machine, use IntelliJ's built-in Maven tool window:
