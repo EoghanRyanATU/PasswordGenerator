@@ -11,4 +11,3 @@ Describe what changes were made with this PR
 ## Testing & Quality Assurance
 - [ ] Unit tests passing (`mvn clean test`)
 - [ ] JaCoCo code coverage verified
-- [ ] Main.java run manually to observe terminal output
